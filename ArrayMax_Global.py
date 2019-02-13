@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import multiprocessing
 import random
-import time
 
 NUM_THREADS = 4
 
@@ -13,7 +12,6 @@ def run(id, data, maxValue):
     maxValue[id] = max(data[start:end])
 
 if __name__ == '__main__':
-    st = time.time()
     data = multiprocessing.Array('i', 1000) # i = integer, d = double
     maxValue = multiprocessing.Array('i', 4)
 
@@ -29,10 +27,8 @@ if __name__ == '__main__':
     for i in range(NUM_THREADS):
         procs[i].join()
 
-    et = time.time()
     print(data[:])
     print("--------------------------------------------------")
     print("Maximum value in each threads: ")
     print(maxValue[:])
     print("Global maximum value: %d" % (max(maxValue)))
-    print("Execution time: %f ms." % ((et-st)*1000))
