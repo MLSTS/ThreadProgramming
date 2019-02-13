@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import multiprocessing
+import random
 
 NUM_THREADS = 4
 
