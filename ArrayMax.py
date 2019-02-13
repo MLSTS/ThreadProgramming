@@ -4,39 +4,30 @@ import random
 
 NUM_THREADS = 4
 
-def run(id, dataA, dataB, dataC, maxValue):
-    chunkSize = int (len(dataC) / NUM_THREADS)
+def run(id, data, maxValue):
+    chunkSize = int (len(data) / NUM_THREADS)
     start = chunkSize * id
     end = chunkSize * (id + 1)
     
-    for i in range(start,end):
-        dataC[i] = dataA[i] + dataB[i]
-    maxValue[id] = max(dataC[start:end])
+    maxValue[id] = max(data[start:end])
 
 if __name__ == '__main__':
-    dataA = multiprocessing.Array('i', 1000) # i = integer, d = double
-    dataB = multiprocessing.Array('i', 1000) # i = integer, d = double
-    dataC = multiprocessing.Array('i', 1000) # i = integer, d = double
+    data = multiprocessing.Array('i', 1000) # i = integer, d = double
     maxValue = multiprocessing.Array('i', 4)
 
-    for i in range(len(dataA)):
-        dataA[i] = i
-
-    for i in range(len(dataB)):
-        dataB[i] = i
+    for i in range(len(data)):
+        data[i] = random.randint(0,1000000)
 
     procs = []
     for i in range(NUM_THREADS):
-        p = multiprocessing.Process( target=run, args=(i, dataA, dataB, dataC, maxValue))
+        p = multiprocessing.Process( target=run, args=(i, data, maxValue))
         procs.append(p)
         p.start()
 
     for i in range(NUM_THREADS):
         procs[i].join()
 
-    print(dataA[:])
-    print(dataB[:])
-    print(dataC[:])
+    print(data[:])
     print("--------------------------------------------------")
     print("Maximum value in each threads: ")
     print(maxValue[:])
