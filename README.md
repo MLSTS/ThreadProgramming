@@ -1,2 +1,2 @@
 # ThreadProgramming
-Parallel and Distributed Computing in Python.
+Parallel and Distributed Computing programming in C with OpenMP and Python.
